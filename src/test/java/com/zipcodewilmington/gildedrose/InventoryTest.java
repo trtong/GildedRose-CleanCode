@@ -3,8 +3,6 @@ package com.zipcodewilmington.gildedrose;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 /**
  * Creating tests for the Inventory Class
  * The Inventory class will keep track of SellIn & Quality
@@ -18,8 +16,9 @@ public class InventoryTest {
     Item agedBrie = new Item("Aged Brie", 1, 45);
     Item passes = new Item("Backstage passes to a TAFKAL80ETC concert", 11, 25);
     Item sulfuras = new Item("Sulfuras, Hand of Ragnaros", 10, 80 );
+    Item conjured = new Item("Conjured items by the magnificent wizard", 5, 4);
 
-    Item[] items = {wine, agedBrie, passes, sulfuras};
+    Item[] items = {wine, agedBrie, passes, sulfuras, conjured};
 
     public InventoryTest() {
         inventory = new Inventory(items);
@@ -27,22 +26,172 @@ public class InventoryTest {
 
     @Test
     public void testBrieQuality() {
-        // Brie quality increases as sell in decreases
-        // Given
 
         int expectedBrieQuality = 46;
         String itemName = "agedBrie";
 
-        // When
         inventory.adjustItemQuality(agedBrie, 1);
         int actualBrieQuality = agedBrie.getQuality();
 
-        // Then
         Assert.assertEquals(expectedBrieQuality,actualBrieQuality);
     }
 
+
     @Test
     public void testPassQuality() {
+
+        int expectedQuality = 26;
+
+        inventory.updateQuality();
+        int actualQuality = passes.getQuality();
+
+        Assert.assertEquals(expectedQuality, actualQuality);
+
+    }
+
+    @Test
+    public void testSulfurasQuality() {
+
+        int expectedQuality = 80;
+
+        inventory.updateQuality();
+        int actualQuality = sulfuras.getQuality();
+
+        Assert.assertEquals(expectedQuality, actualQuality);
+
+    }
+
+    @Test
+    public void testConjuredQuality() {
+
+    }
+
+    @Test
+    public void testReachMaxQuality(){
+
+        int expectedQuality = 50;
+
+        inventory.adjustItemQuality(wine, 45);
+
+        int actualQuality = wine.getQuality();
+
+        Assert.assertEquals(expectedQuality, actualQuality);
+    }
+
+    @Test
+    public void testDecreaseSellIn() {
+
+        int expectedSellin= 0;
+
+        inventory.decreaseSellIn(agedBrie);
+        int actualSellIn = agedBrie.getSellIn();
+
+        Assert.assertEquals(expectedSellin, actualSellIn);
+
+    }
+
+    @Test
+    public void testSellIn5() {
+
+        boolean actualSell = inventory.checkPassSellIn5(passes);
+
+        Assert.assertFalse(actualSell);
+
+    }
+
+    @Test
+    public void adjustPassQuality5() {
+
+        int expectedQuality = 39;
+
+        for (int i = 0; i < 7; i++) {
+            inventory.updateQuality();
+        }
+        int actualQuality = passes.getQuality();
+
+        Assert.assertEquals(expectedQuality,actualQuality);
+
+    }
+
+    @Test
+    public void adjustPassQualityNegative() {
+
+        int expectedQuality = 0;
+
+        for (int i = 0; i < 15; i++) {
+            inventory.updateQuality();
+        }
+
+        int actualQuality = passes.getQuality();
+
+        Assert.assertEquals(expectedQuality,actualQuality);
+    }
+
+    @Test
+    public void testSellIn10() {
+
+        inventory.decreaseSellIn(passes);
+        inventory.decreaseSellIn(passes);
+        boolean actualSell = inventory.checkPassSellIn10(passes);
+
+        Assert.assertTrue(actualSell);
+
+    }
+
+    @Test
+    public void testSellIn0() {
+
+        boolean actualSell = inventory.checkSellInNegative(passes);
+        Assert.assertFalse(actualSell);
+
+    }
+
+    @Test
+    public void testSetMaxQuality() {
+
+        int expectedMaxQuality = 50;
+
+        inventory.setQualityMax(wine);
+        int actualQuality = wine.getQuality();
+
+        Assert.assertEquals(expectedMaxQuality, actualQuality);
+
+    }
+
+    @Test
+    public void testSetQualityZero() {
+
+        int expectedQuality = 0;
+
+        inventory.setQualityZero(wine);
+        int actualQuality = wine.getQuality();
+
+        Assert.assertEquals(expectedQuality, actualQuality);
+    }
+
+    @Test
+    public void testNegativeQualityisZero() {
+
+        int expectedQuality = 0;
+
+        for (int i = 0; i < 5; i++) {
+            inventory.updateQuality();
+        }
+
+        int actualQuality = conjured.getQuality();
+
+        Assert.assertEquals(expectedQuality, actualQuality);
+    }
+
+    @Test
+    public void testGetName() {
+
+        String expectedName = "Conjured items by wizard";
+
+        conjured.setName(expectedName);
+        String actualName = conjured.getName();
+
+        Assert.assertEquals(expectedName, actualName);
 
     }
 
