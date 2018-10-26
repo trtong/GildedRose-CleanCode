@@ -9,7 +9,22 @@ public class Inventory {
         this.items = items;
     }
 
+//    public void increaseQuality(int i){
+//
+//        int quality = item.getQuality() + i;
+//        if (quality > 50) {
+//            quality = 50;
+//        }
+//
+//        item.setQuality(quality);
+//    }
 
+    public Item[] getItems(){
+        return this.items;
+    }
+
+
+    // Old Code
     public void updateQuality() {
         // Giant for loop representing the "day" each day, the quality's of items change.
 
