@@ -22,65 +22,71 @@ public class Inventory {
             switch (item.getName()){
 
             case BRIE:
-                if (!checkQuality(item, 1)) {
-                    adjustItemQuality(item, 1);
-                } else {
-                    setQualityMax(item);
-                }
+
+                adjustItemQuality(item, 1);
 
                 decreaseSellIn(item);
-
                 break;
 
             case BACK_PASS:
-                if (item.getSellIn() < 0) {
+
+                // Check sell in because the sell in value dictates the quality modifier
+
+                if (checkPassSellIn5(item)) {
+                    adjustItemQuality(item, 3);
+
+                } else if (checkPassSellIn10(item)) {
+                    adjustItemQuality(item, 2);
+
+                } else if (checkPassSellInNegative(item)) {
                     setQualityZero(item);
-
-                } else if (item.getSellIn() <= 5) {
-                    if (!checkQuality(item, 2)) {
-                        adjustItemQuality(item, 2);
-                    } else {
-                        setQualityMax(item);
-                    }
-
-                } else if (item.getSellIn() <= 10) {
-                    if (!checkQuality(item, 3)) {
-                        adjustItemQuality(item, 3);
-                    } else {
-                        setQualityMax(item);
-                    }
+                } else {
+                    adjustItemQuality(item, 1);
                 }
-
                 decreaseSellIn(item);
 
                 break;
-
 
             case SULFURAS:
                 item.setQuality(80);
                 item.setSellIn(item.getSellIn());
 
-
-
-            };
+                break;
+            }
         }
     }
+
 
     public void decreaseSellIn(Item name) {
         name.setSellIn(name.getSellIn() - 1);
 
     }
 
-    public boolean checkQuality(Item name, int addQuality) {
-        boolean isQuality50 = false;
+    public boolean checkPassSellIn5(Item item) {
 
-        if (name.getQuality() + addQuality < 50) {
-            isQuality50 = false;
-        } else {
-            isQuality50 = true;
+        if (item.getSellIn() <= 5 && item.getSellIn() >= 0) {
+            return true;
         }
 
-        return isQuality50;
+        return false;
+    }
+
+    public boolean checkPassSellIn10(Item item) {
+
+        if (item.getSellIn() <= 10 && item.getSellIn() > 5) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean checkPassSellInNegative(Item item) {
+
+        if (item.getSellIn() < 0) {
+            return true;
+        }
+
+        return false;
     }
 
     public void setQualityMax(Item item) {
@@ -91,24 +97,15 @@ public class Inventory {
         item.setQuality(0);
     }
 
-
     public void adjustItemQuality(Item name, int qualityIncrement) {
 
+        if (name.getQuality() + qualityIncrement < 50) {
+            name.setQuality(name.getQuality() + qualityIncrement);
+        } else {
+            setQualityMax(name);
+        }
+
     }
-
-
-
-
-
-//    public void increaseQuality(int i){
-//
-//        int quality = item.getQuality() + i;
-//        if (quality > 50) {
-//            quality = 50;
-//        }
-//
-//        item.setQuality(quality);
-//    }
 
     public Item[] getItems(){
         return this.items;

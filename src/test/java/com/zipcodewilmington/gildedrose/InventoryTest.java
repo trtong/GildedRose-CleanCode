@@ -34,7 +34,7 @@ public class InventoryTest {
         String itemName = "agedBrie";
 
         // When
-        agedBrie.setQuality(agedBrie.getQuality() + 1);
+        inventory.adjustItemQuality(agedBrie, 1);
         int actualBrieQuality = agedBrie.getQuality();
 
         // Then
