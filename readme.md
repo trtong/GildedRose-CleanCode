@@ -7,21 +7,6 @@
 ### **Purpose:**
 * To understand why writing readable code matter
 
-### **Instructions:**
-
-1. Fork this Repository
-    * [fork](https://help.github.com/articles/fork-a-repo/) this repository to your personal github account
-    * [clone](https://help.github.com/articles/cloning-a-repository/) **your** `forked` repository to your local machine.
-    * clean up the code in the `Inventory` class
-    * commit your changes
-    * submit a `pull request` which compares Zipcoder `master` to your `master`.
-3. DO NOT CHANGE THE ITEM CLASS
-
-### See test coverage
-1. Right click on the `java` folder in the `test` directory
-2. Select `Run all with test coverage`
-3. Note a window pop up which display which line is covered
-
 # Part 1 - Original Description of the Gilded Rose
 
 Hi and welcome to team Gilded Rose. As you know, we are a small inn
@@ -70,7 +55,6 @@ you).
 ## Part 2 - Refactor the code
 
 Note how hard it is to read this code. Your task is to refactor the code to make it more readable. First create a new branch called `refactor`.
-
 
 
 ## Part 3 - Add a new item
